@@ -63,7 +63,7 @@ public class JuleNissen {
 			if(koeber.group == gaveModtagere.get(0).group) {
 				opstilNavne();
 			} else {
-				resultat.add(koeber.navn + " køber til " + gaveModtagere.get(0).navn);
+				resultat.add(koeber.navn + " køber til " + gaveModtagere.get(0).navn + ".");
 				gaveModtagere.remove(0);
 
 				printResultat();
