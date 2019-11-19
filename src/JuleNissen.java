@@ -62,6 +62,7 @@ public class JuleNissen {
 
 			if(koeber.group == gaveModtagere.get(0).group) {
 				opstilNavne();
+				traekLod();
 			} else {
 				resultat.add(koeber.navn + " k�ber til " + gaveModtagere.get(0).navn + ".");
 				gaveModtagere.remove(0);
