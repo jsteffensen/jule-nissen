@@ -1,22 +1,44 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class JuleNissen {
 
-	static List<Person> gaveKoebere;
-	static List<Person> gaveModtagere;
-	static List<String> resultat = new ArrayList<String>();
+	static List<Person> gaveKoebere = new ArrayList<Person>();
+	static List<Person> gaveModtagere  = new ArrayList<Person>();
+	
+	static LinkedHashMap<Person, List<Person>> resultat = new LinkedHashMap<Person, List<Person>>();
+	
+	static HashMap<String, String> aar1;
+	static HashMap<String, String> aar2;
+	static HashMap<String, String> aar3;
+	static HashMap<String, String> aar4;
+	static HashMap<String, String> aar5;
+
+
+	static boolean erUmuligLoesning;
+	static boolean erTidligereLoesning;
 
 	public static void main(String[] args) {
-
+		start();
+	}
+	
+	public static void start() {
+		
+		erUmuligLoesning = false;
+		erTidligereLoesning = false;
+		
+		opstilTidligereAar();
+		
 		opstilNavne();
-		traekLod();
+
 	}
 
 	private static void opstilNavne() {
 
-		gaveKoebere = new ArrayList<Person>();
+		gaveKoebere.clear();
 		gaveKoebere.add( new Person("Lilian", 1));
 		gaveKoebere.add( new Person("Alfred", 1));
 		gaveKoebere.add( new Person("Lise", 2));
@@ -25,58 +47,101 @@ public class JuleNissen {
 		gaveKoebere.add( new Person("Sidsel", 4));
 		gaveKoebere.add( new Person("Jesper S", 4));
 
-		gaveModtagere = new ArrayList<Person>();
-		gaveModtagere.add( new Person("Lilian", 1));
-		gaveModtagere.add( new Person("Alfred", 1));
-		gaveModtagere.add( new Person("Lise", 2));
-		gaveModtagere.add( new Person("Kirsten", 3));
-		gaveModtagere.add( new Person("Jesper K", 3));
-		gaveModtagere.add( new Person("Sidsel", 4));
-		gaveModtagere.add( new Person("Jesper S", 4));
+		gaveModtagere.clear();
+		
+		gaveKoebere.forEach(p -> {
+			String navn = p.navn;
+			int group = p.group;
+			gaveModtagere.add(new Person(navn, group));
+		});
+		
+		resultat.clear();
+		gaveKoebere.forEach(p -> {
+			
+			// lav de samme modtagere, som der findes i købere
+			String navn = p.navn;
+			int group = p.group;
+			Person koeber = new Person(navn, group);
+			
+			// opstil mulige modtagere, som ikke er i samme gruppe (familie) og ikke er i de fire tidligere år
+			List<Person> muligeModtagere = new ArrayList<Person>();
+			gaveModtagere.forEach(m-> {
+				boolean erITidligereAar = erITidligereAar(koeber, m);
+				if(m.group != koeber.group && !erITidligereAar) {
+					muligeModtagere.add(m);
+				}
+			});			
+			
+			// indsæt køber og tilhørende mulige modtagere
+			resultat.put(koeber, muligeModtagere);
+		});
+		
+		
+		printMuligheder();
 
 	}
+	
+	private static void opstilTidligereAar() {
+		
+		aar1 = new HashMap<String, String>(); // 2020
+		aar1.put("Lilian", "Lise");
+		aar1.put("Alfred", "Jesper S");
+		aar1.put("Lise", "Alfred");
+		aar1.put("Kirsten", "Sidsel");
+		aar1.put("Jesper K", "Lilian");
+		aar1.put("Sidsel", "Jesper K");
+		aar1.put("Jesper S", "Kirsten");
 
-	private static void traekLod() {
+		aar2 = new HashMap<String, String>(); // 2019
+		aar2.put("Lilian", "Kirsten");
+		aar2.put("Alfred", "Sidsel");
+		aar2.put("Lise", "Jesper S");
+		aar2.put("Kirsten", "Alfred");
+		aar2.put("Jesper K", "Lise");
+		aar2.put("Sidsel", "Lilian");
+		aar2.put("Jesper S", "Jesper K");
+		
+		aar3 = new HashMap<String, String>(); // 2018
+		aar3.put("Lilian", "Jesper K");
+		aar3.put("Alfred", "Sidsel");
+		aar3.put("Lise", "Lilian");
+		aar3.put("Kirsten", "Lise");
+		aar3.put("Jesper K", "Jesper S");
+		aar3.put("Sidsel", "Kirsten");
+		aar3.put("Jesper S", "Alfred");
+		
+		aar4 = new HashMap<String, String>(); // 2017
+		aar4.put("Lilian", "Sidsel");
+		aar4.put("Alfred", "Lise");
+		aar4.put("Lise", "Kirsten");
+		aar4.put("Kirsten", "Lilian");
+		aar4.put("Jesper K", "Jesper S");
+		aar4.put("Sidsel", "Alfred");
+		aar4.put("Jesper S", "Jesper K");
+		
 
-		for(int i = 0; i < gaveKoebere.size(); i++) {
-			findKombination(gaveKoebere.get(i));
-		}
 	}
-
-	private static void findKombination(Person koeber) {
-
-		if( gaveModtagere.size() > 1 ) {
-
-			int randomNum = ThreadLocalRandom.current().nextInt(0, (gaveModtagere.size()-1));
-			Person modtager = gaveModtagere.get(randomNum);
-
-			while(koeber.group == modtager.group) {
-				int nextRandom = randomNum = ThreadLocalRandom.current().nextInt(0, gaveModtagere.size());
-				modtager = gaveModtagere.get(nextRandom);
-			}
-
-			resultat.add(koeber.navn + " kï¿½ber til " + modtager.navn + ".");
-			gaveModtagere.remove(randomNum);
-
-		} else {
-
-			if(koeber.group == gaveModtagere.get(0).group) {
-				opstilNavne();
-				traekLod();
-			} else {
-				resultat.add(koeber.navn + " kï¿½ber til " + gaveModtagere.get(0).navn + ".");
-				gaveModtagere.remove(0);
-
-				printResultat();
-			}
-		}
+	
+	private static boolean erITidligereAar(Person koeber, Person modtager) {
+		
+		boolean erIAar1 = aar1.get(koeber.navn).contentEquals(modtager.navn);
+		boolean erIAar2 = aar2.get(koeber.navn).contentEquals(modtager.navn);
+		boolean erIAar3 = aar3.get(koeber.navn).contentEquals(modtager.navn);
+		boolean erIAar4 = aar4.get(koeber.navn).contentEquals(modtager.navn);
+		
+		return erIAar1 || erIAar2 || erIAar3 || erIAar4;
+		
 	}
-
-	private static void printResultat() {
-
-		for(int i = 0; i < resultat.size(); i++) {
-			System.out.println(resultat.get(i));
-		}
+	
+	private static void printMuligheder() {
+		
+		resultat.forEach((k, v)-> {
+			System.out.print(k.navn + " -> ");
+			v.forEach(m-> {
+				System.out.print(m.navn + " ");
+			});
+			System.out.println("\n");
+		});
 	}
 
 }
