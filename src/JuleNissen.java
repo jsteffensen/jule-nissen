@@ -47,28 +47,32 @@ public class JuleNissen {
 		gaveKoebere.add( new Person("Sidsel", 4));
 		gaveKoebere.add( new Person("Jesper S", 4));
 
+		// lav de samme modtagere, som der findes i købere
 		gaveModtagere.clear();
-		
 		gaveKoebere.forEach(p -> {
 			String navn = p.navn;
 			int group = p.group;
 			gaveModtagere.add(new Person(navn, group));
 		});
 		
+		// lav mulige udfald
 		resultat.clear();
 		gaveKoebere.forEach(p -> {
 			
-			// lav de samme modtagere, som der findes i købere
+			// Køber
 			String navn = p.navn;
 			int group = p.group;
 			Person koeber = new Person(navn, group);
 			
-			// opstil mulige modtagere, som ikke er i samme gruppe (familie) og ikke er i de fire tidligere år
+			// opstil mulige modtagere, som ikke er i familie med køber, og ikke er i de fire tidligere år
 			List<Person> muligeModtagere = new ArrayList<Person>();
-			gaveModtagere.forEach(m-> {
-				boolean erITidligereAar = erITidligereAar(koeber, m);
-				if(m.group != koeber.group && !erITidligereAar) {
-					muligeModtagere.add(m);
+			
+			gaveModtagere.forEach(modtager-> {
+				boolean erISammeFamilie = erISammeFamilie(koeber, modtager);
+				boolean erITidligereAar = erITidligereAar(koeber, modtager);
+				
+				if(!erISammeFamilie && !erITidligereAar) {
+					muligeModtagere.add(modtager);
 				}
 			});			
 			
@@ -120,6 +124,12 @@ public class JuleNissen {
 		aar4.put("Jesper S", "Jesper K");
 		
 
+	}
+	
+	private static boolean erISammeFamilie(Person koeber, Person modtager) {
+		
+		return koeber.group == modtager.group;
+		
 	}
 	
 	private static boolean erITidligereAar(Person koeber, Person modtager) {
