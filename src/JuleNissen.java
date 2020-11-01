@@ -57,12 +57,7 @@ public class JuleNissen {
 		
 		// lav mulige udfald
 		resultat.clear();
-		gaveKoebere.forEach(p -> {
-			
-			// Køber
-			String navn = p.navn;
-			int group = p.group;
-			Person koeber = new Person(navn, group);
+		gaveKoebere.forEach(koeber -> {
 			
 			// opstil mulige modtagere, som ikke er i familie med køber, og ikke er i de fire tidligere år
 			List<Person> muligeModtagere = new ArrayList<Person>();
