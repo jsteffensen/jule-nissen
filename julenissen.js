@@ -152,29 +152,50 @@ for (j = 0; j < persons[i].posibilities.length; j++) {
     }
 }
 
-filterSolutions(1, 6);
-filterSolutions(2, 7);
-filterSolutions(3, 5);
-filterSolutions(4, 3);
+// 2022
+filterSolutions(1, 5);
+filterSolutions(2, 3);
+filterSolutions(3, 6);
+filterSolutions(4, 7);
 filterSolutions(5, 2);
 filterSolutions(6, 4);
 filterSolutions(7, 1);
 
+// 2021
 filterSolutions(1, 7);
-filterSolutions(2, 6);
-filterSolutions(3, 4);
-filterSolutions(4, 2);
-filterSolutions(5, 3);
-filterSolutions(6, 1);
-filterSolutions(7, 5);
-
-filterSolutions(1, 5);
 filterSolutions(2, 4);
-filterSolutions(3, 7);
-filterSolutions(4, 6);
-filterSolutions(5, 1);
+filterSolutions(3, 5);
+filterSolutions(4, 1);
+filterSolutions(5, 6);
 filterSolutions(6, 3);
 filterSolutions(7, 2);
+
+// 2020
+filterSolutions(1, 3);
+filterSolutions(2, 7);
+filterSolutions(3, 2);
+filterSolutions(4, 6);
+filterSolutions(5, 1);
+filterSolutions(6, 5);
+filterSolutions(7, 4);
+
+// 2019
+// filterSolutions(1, 4);
+// filterSolutions(2, 6);
+// filterSolutions(3, 7);
+// filterSolutions(4, 2);
+// filterSolutions(5, 3);
+// filterSolutions(6, 1);
+// filterSolutions(7, 5);
+		
+// 2018
+// filterSolutions(1, 5);
+// filterSolutions(2, 6);
+// filterSolutions(3, 1);
+// filterSolutions(4, 3);
+// filterSolutions(5, 7);
+// filterSolutions(6, 4);
+// filterSolutions(7, 2);
 
 printSolutions();
 
@@ -200,13 +221,13 @@ function filterSolutions(koeberId, modtagerId) {
 
 function printSolutions() {
     for (i = 0; i < solutions.length; i++) {
-        console.log(solutions[i][0][0].name + ' koeber til ' + solutions[i][0][1].name);
-        console.log(solutions[i][1][0].name + ' koeber til ' + solutions[i][1][1].name);
-        console.log(solutions[i][2][0].name + ' koeber til ' + solutions[i][2][1].name);
-        console.log(solutions[i][3][0].name + ' koeber til ' + solutions[i][3][1].name);
-        console.log(solutions[i][4][0].name + ' koeber til ' + solutions[i][4][1].name);
-        console.log(solutions[i][5][0].name + ' koeber til ' + solutions[i][5][1].name);
-        console.log(solutions[i][6][0].name + ' koeber til ' + solutions[i][6][1].name);
+        console.log(solutions[i][0][0].name + ' køber til ' + solutions[i][0][1].name);
+        console.log(solutions[i][1][0].name + ' køber til ' + solutions[i][1][1].name);
+        console.log(solutions[i][2][0].name + ' køber til ' + solutions[i][2][1].name);
+        console.log(solutions[i][3][0].name + ' køber til ' + solutions[i][3][1].name);
+        console.log(solutions[i][4][0].name + ' køber til ' + solutions[i][4][1].name);
+        console.log(solutions[i][5][0].name + ' køber til ' + solutions[i][5][1].name);
+        console.log(solutions[i][6][0].name + ' køber til ' + solutions[i][6][1].name);
         console.log('----------------------------');
     }
     console.log('\n' + solutions.length + ' solutions.');
